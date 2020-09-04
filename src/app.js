@@ -20,21 +20,46 @@
 */
 
 const app = {
-  _state: {
-    todos: []
-  },
-  get state() {
-    return this._state;
-  },
-  set state(newState) {
-    this._state = newState
-  },
+    _state: {
+        todos: []
+    },
+    get state() {
+        return this._state;
+    },
+    set state(newState) {
+        this._state = newState
+    },
 
-  toggleCompleted: function (position) {
-    if (position < 0 || this._state.todos.length <= position) {
-      return;
+    toggleCompleted: function(position) {
+        if (position < 0 || this._state.todos.length <= position) {
+            return;
+        }
+        const todo = this._state.todos[position];
+        todo.completed = !todo.completed;
     }
-    const todo = this._state.todos[position];
-    todo.completed = !todo.completed;
-  }
 }
+
+const view = {
+    renderInitialScreen() {
+        //container
+        const div = document.createElement('div');
+        div.classList.add('container');
+
+        //page title
+        const h1 = document.createElement('h1');
+        h1.textContent = 'TODOS';
+
+        //input field
+
+        const input = document.createElement('input');
+        input.type = 'text';
+
+        //append to div
+        div.appendChild(h1);
+        div.appendChild(input);
+
+        return div;
+
+    }
+}
+view.renderInitialScreen()
