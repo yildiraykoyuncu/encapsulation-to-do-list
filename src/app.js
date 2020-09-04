@@ -65,6 +65,12 @@ const view = {
         const h1 = document.createElement('h1');
         h1.textContent = 'TODOS';
 
+        //toggle button
+        const toggleButton = document.createElement('button');
+        toggleButton.id = 'toggle-button'
+        toggleButton.innerText = 'V'
+
+
         //input field
 
         const input = document.createElement('input');
@@ -72,6 +78,7 @@ const view = {
 
         //append to div
         div.appendChild(h1);
+        div.appendChild(toggleButton)
         div.appendChild(input);
 
         return div;
@@ -191,7 +198,6 @@ const handlers = {
 
         //delete from dom
         const todoItem = event.target.parentElement
-        console.log(todoItem)
 
         todoItem.parentElement.removeChild(todoItem);
 
@@ -199,6 +205,34 @@ const handlers = {
         //developer logs
         logger.push({
             action: 'delete',
+            state: deepClone(app._state),
+            event,
+
+        });
+        console.log('logs', logger.logs)
+
+    },
+
+    toggleAll(event) {
+
+        //update state and dom
+        if (app._state.todos.every(todo => todo.completed === true)) {
+            app._state.todos.forEach((todo, i) => {
+                todo.completed = false;
+                const checkboxId = String(i)
+                document.getElementById(checkboxId).checked = false;
+            })
+        } else {
+            app._state.todos.forEach((todo, i) => {
+                todo.completed = true;
+                const checkboxId = String(i)
+                document.getElementById(checkboxId).checked = true;
+            })
+        }
+
+        //developer logs
+        logger.push({
+            action: 'toggle-all',
             state: deepClone(app._state),
             event,
 
