@@ -42,6 +42,10 @@ const app = {
 
     },
 
+    deleteTodo(position) {
+        this._state.todos.splice(position, 1)
+    },
+
     toggleCompleted: function(position) {
         if (position < 0 || this._state.todos.length <= position) {
             return;
@@ -73,10 +77,52 @@ const view = {
         return div;
 
     },
+
+    renderTodos(todosArr) {
+        const ulEl = document.createElement('ul');
+        ulEl.id = 'todo-list'
+
+        for (const todo of todosArr) {
+            //create <li>
+            const liEl = document.createElement('li');
+            liEl.classList.add('todo-item')
+
+
+            //Create and add checkbox
+            const checkBoxEl = document.createElement('input');
+            checkBoxEl.type = 'checkbox';
+            if (todo.completed) {
+                checkBoxEl.setAttribute('checked', true);
+            }
+            checkBoxEl.id = todosArr.indexOf(todo);
+            liEl.appendChild(checkBoxEl);
+
+            //create todo body
+
+            const p = document.createElement('p')
+            p.innerText = todo.text;
+
+            liEl.appendChild(p);
+
+            //create delete button
+            const deleteButton = document.createElement('button');
+            deleteButton.type = 'button'
+            deleteButton.classList.add('delete')
+            deleteButton.setAttribute('data-index', todosArr.indexOf(todo))
+            deleteButton.innerText = 'X'
+
+            liEl.appendChild(deleteButton)
+            ulEl.appendChild(liEl);
+        }
+
+        return ulEl;
+    },
     renderAddedTodo() {
         const todosArr = app._state.todos
         const todoAdded = todosArr[todosArr.length - 1]
         const liEl = document.createElement('li');
+
+        liEl.classList.add('todo-item')
 
         const checkBoxEl = document.createElement('input');
         checkBoxEl.type = 'checkbox';
@@ -86,7 +132,17 @@ const view = {
         checkBoxEl.id = todosArr.indexOf(todoAdded);
         liEl.appendChild(checkBoxEl);
 
-        liEl.innerHTML += todoAdded.text;
+        const p = document.createElement('p')
+        p.innerText = todoAdded.text;
+        liEl.appendChild(p)
+
+        const deleteButton = document.createElement('button')
+        deleteButton.type = 'button'
+        deleteButton.classList.add('delete');
+        deleteButton.setAttribute('data-index', todosArr.indexOf(todoAdded))
+        deleteButton.innerText = 'X'
+
+        liEl.appendChild(deleteButton);
 
         return liEl;
     }
@@ -114,11 +170,40 @@ const handlers = {
 
         //developer logs
         logger.push({
+            action: 'add',
             state: deepClone(app._state),
             event,
             view: addedTodo
         });
 
-        console.log('hello')
+        console.log('logs', logger.logs)
+    },
+
+    deleteTodo(event) {
+        //check if the delete button is clicked
+        if (!event.target.classList.contains('delete')) return;
+
+        //find the index of todo inside todos array
+        const position = Number(event.target.dataset.index);
+
+        //delete todo from state
+        app.deleteTodo(position)
+
+        //delete from dom
+        const todoItem = event.target.parentElement
+        console.log(todoItem)
+
+        todoItem.parentElement.removeChild(todoItem);
+
+
+        //developer logs
+        logger.push({
+            action: 'delete',
+            state: deepClone(app._state),
+            event,
+
+        });
+        console.log('logs', logger.logs)
+
     }
 }
