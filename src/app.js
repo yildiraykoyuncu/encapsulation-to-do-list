@@ -19,6 +19,13 @@
 
 */
 
+class Todo {
+    constructor(text) {
+        this.text = text;
+        this.isCompleted = false;
+    }
+}
+
 const app = {
     _state: {
         todos: []
@@ -28,6 +35,11 @@ const app = {
     },
     set state(newState) {
         this._state = newState
+    },
+    addTodo(text) {
+        const newTodo = new Todo(text);
+        this._state.todos.push(newTodo);
+
     },
 
     toggleCompleted: function(position) {
