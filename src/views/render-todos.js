@@ -3,8 +3,11 @@ const renderTodos = (todosArr) => {
     ulEl.id = 'todo-list'
 
     for (const todo of todosArr) {
+        //create <li>
         const liEl = document.createElement('li');
+        liEl.classList.add('todo-item')
 
+        //Create and add checkbox
         const checkBoxEl = document.createElement('input');
         checkBoxEl.type = 'checkbox';
         if (todo.completed) {
@@ -13,7 +16,20 @@ const renderTodos = (todosArr) => {
         checkBoxEl.id = todosArr.indexOf(todo);
         liEl.appendChild(checkBoxEl);
 
-        liEl.innerHTML += todo.text;
+        //create todo body
+
+        const p = document.createElement('p')
+        p.innerText = todo.text;
+
+        liEl.appendChild(p);
+
+        //create delete button
+        const deleteButton = document.createElement('button');
+        deleteButton.type = 'button'
+        deleteButton.classList.add('delete')
+        deleteButton.innerText = 'X'
+
+        liEl.appendChild(deleteButton)
         ulEl.appendChild(liEl);
     }
 

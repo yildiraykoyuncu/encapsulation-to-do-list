@@ -78,6 +78,8 @@ const view = {
         const todoAdded = todosArr[todosArr.length - 1]
         const liEl = document.createElement('li');
 
+        liEl.classList.add('todo-item')
+
         const checkBoxEl = document.createElement('input');
         checkBoxEl.type = 'checkbox';
         if (todoAdded.completed) {
@@ -86,7 +88,16 @@ const view = {
         checkBoxEl.id = todosArr.indexOf(todoAdded);
         liEl.appendChild(checkBoxEl);
 
-        liEl.innerHTML += todoAdded.text;
+        const p = document.createElement('p')
+        p.innerText = todoAdded.text;
+        liEl.appendChild(p)
+
+        const deleteButton = document.createElement('button')
+        deleteButton.type = 'button'
+        deleteButton.classList.add('delete');
+        deleteButton.innerText = 'X'
+
+        liEl.appendChild(deleteButton);
 
         return liEl;
     }

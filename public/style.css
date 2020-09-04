@@ -1,0 +1,8 @@
+.todo-item {
+    display: flex;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
