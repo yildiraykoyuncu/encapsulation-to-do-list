@@ -22,7 +22,7 @@
 class Todo {
     constructor(text) {
         this.text = text;
-        this.isCompleted = false;
+        this.completed = false;
     }
 }
 
@@ -72,6 +72,53 @@ const view = {
 
         return div;
 
+    },
+    renderAddedTodo() {
+        const todosArr = app._state.todos
+        const todoAdded = todosArr[todosArr.length - 1]
+        const liEl = document.createElement('li');
+
+        const checkBoxEl = document.createElement('input');
+        checkBoxEl.type = 'checkbox';
+        if (todoAdded.completed) {
+            checkBoxEl.setAttribute('checked', true);
+        }
+        checkBoxEl.id = todosArr.indexOf(todoAdded);
+        liEl.appendChild(checkBoxEl);
+
+        liEl.innerHTML += todoAdded.text;
+
+        return liEl;
+    }
+
+}
+
+const handlers = {
+
+    addTodo(event) {
+
+        if (event.key !== 'Enter') return;
+        //read from user
+        const input = event.target.value;
+
+        //update state
+        app.addTodo(input);
+
+        //render todo and add to DOM event listeners
+        const addedTodo = view.renderAddedTodo();
+        document.getElementById('todo-list').appendChild(addedTodo);
+
+        //clear input field
+
+        event.target.value = '';
+
+        //developer logs
+        logger.push({
+            state: deepClone(app._state),
+            event,
+            view: addedTodo
+        });
+
+        console.log('hello')
     }
 }
-view.renderInitialScreen()
