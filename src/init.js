@@ -10,10 +10,11 @@ window.onload = () => {
 
     const initialScreen = view.renderInitialScreen()
     root.appendChild(initialScreen)
-    document.querySelector('input[type="text"]').addEventListener('keyup', handlers.addTodo);
+    initialScreen.querySelector('input[type="text"]').addEventListener('keyup', handlers.addTodo);
 
     const todosView = view.renderTodos(app.state.todos);
     todosView.addEventListener('change', toggleCompletedHandler); // event delegation!
+    todosView.addEventListener('click', handlers.deleteTodo)
     root.appendChild(todosView);
 
 

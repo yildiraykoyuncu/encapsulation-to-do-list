@@ -87,6 +87,7 @@ const view = {
             const liEl = document.createElement('li');
             liEl.classList.add('todo-item')
 
+
             //Create and add checkbox
             const checkBoxEl = document.createElement('input');
             checkBoxEl.type = 'checkbox';
@@ -107,6 +108,7 @@ const view = {
             const deleteButton = document.createElement('button');
             deleteButton.type = 'button'
             deleteButton.classList.add('delete')
+            deleteButton.setAttribute('data-index', todosArr.indexOf(todo))
             deleteButton.innerText = 'X'
 
             liEl.appendChild(deleteButton)
@@ -137,6 +139,7 @@ const view = {
         const deleteButton = document.createElement('button')
         deleteButton.type = 'button'
         deleteButton.classList.add('delete');
+        deleteButton.setAttribute('data-index', todosArr.indexOf(todoAdded))
         deleteButton.innerText = 'X'
 
         liEl.appendChild(deleteButton);
@@ -167,11 +170,40 @@ const handlers = {
 
         //developer logs
         logger.push({
+            action: 'add',
             state: deepClone(app._state),
             event,
             view: addedTodo
         });
 
-        console.log('hello')
+        console.log('logs', logger.logs)
+    },
+
+    deleteTodo(event) {
+        //check if the delete button is clicked
+        if (!event.target.classList.contains('delete')) return;
+
+        //find the index of todo inside todos array
+        const position = Number(event.target.dataset.index);
+
+        //delete todo from state
+        app.deleteTodo(position)
+
+        //delete from dom
+        const todoItem = event.target.parentElement
+        console.log(todoItem)
+
+        todoItem.parentElement.removeChild(todoItem);
+
+
+        //developer logs
+        logger.push({
+            action: 'delete',
+            state: deepClone(app._state),
+            event,
+
+        });
+        console.log('logs', logger.logs)
+
     }
 }
