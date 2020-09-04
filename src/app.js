@@ -211,5 +211,33 @@ const handlers = {
         });
         console.log('logs', logger.logs)
 
+    },
+
+    toggleAll(event) {
+
+        //update state and dom
+        if (app._state.todos.every(todo => todo.completed === true)) {
+            app._state.todos.forEach((todo, i) => {
+                todo.completed = false;
+                const checkboxId = String(i)
+                document.getElementById(checkboxId).checked = false;
+            })
+        } else {
+            app._state.todos.forEach((todo, i) => {
+                todo.completed = true;
+                const checkboxId = String(i)
+                document.getElementById(checkboxId).checked = true;
+            })
+        }
+
+        //developer logs
+        logger.push({
+            action: 'toggle-all',
+            state: deepClone(app._state),
+            event,
+
+        });
+        console.log('logs', logger.logs)
+
     }
 }
