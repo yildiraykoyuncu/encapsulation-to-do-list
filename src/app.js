@@ -42,6 +42,10 @@ const app = {
 
     },
 
+    deleteTodo(position) {
+        this._state.todos.splice(position, 1)
+    },
+
     toggleCompleted: function(position) {
         if (position < 0 || this._state.todos.length <= position) {
             return;
@@ -72,6 +76,44 @@ const view = {
 
         return div;
 
+    },
+
+    renderTodos(todosArr) {
+        const ulEl = document.createElement('ul');
+        ulEl.id = 'todo-list'
+
+        for (const todo of todosArr) {
+            //create <li>
+            const liEl = document.createElement('li');
+            liEl.classList.add('todo-item')
+
+            //Create and add checkbox
+            const checkBoxEl = document.createElement('input');
+            checkBoxEl.type = 'checkbox';
+            if (todo.completed) {
+                checkBoxEl.setAttribute('checked', true);
+            }
+            checkBoxEl.id = todosArr.indexOf(todo);
+            liEl.appendChild(checkBoxEl);
+
+            //create todo body
+
+            const p = document.createElement('p')
+            p.innerText = todo.text;
+
+            liEl.appendChild(p);
+
+            //create delete button
+            const deleteButton = document.createElement('button');
+            deleteButton.type = 'button'
+            deleteButton.classList.add('delete')
+            deleteButton.innerText = 'X'
+
+            liEl.appendChild(deleteButton)
+            ulEl.appendChild(liEl);
+        }
+
+        return ulEl;
     },
     renderAddedTodo() {
         const todosArr = app._state.todos
