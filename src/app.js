@@ -53,8 +53,8 @@ const view = {
 
         const input = document.createElement('input');
         input.type = 'text';
-        console.log(input);
 
+        //append to div
         div.appendChild(h1);
         div.appendChild(input);
 
