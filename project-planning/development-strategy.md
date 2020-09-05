@@ -178,7 +178,7 @@ __As user I want to see well design page__
 
 ### REPO
 
-- This user story is developed on branch `7-CSS`.
+- This user story is developed on branch `7-style`.
 - This branch is merged to `master` branch after completion.
 
 #### CSS
