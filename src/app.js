@@ -92,7 +92,8 @@ const view = {
         for (const todo of todosArr) {
             //create <li>
             const liEl = document.createElement('li');
-            liEl.classList.add('todo-item')
+            liEl.classList.add('todo-item');
+            liEl.setAttribute('data-index', todosArr.indexOf(todo));
 
 
             //Create and add checkbox
@@ -129,7 +130,8 @@ const view = {
         const todoAdded = todosArr[todosArr.length - 1]
         const liEl = document.createElement('li');
 
-        liEl.classList.add('todo-item')
+        liEl.classList.add('todo-item');
+        liEl.setAttribute('data-index', todosArr.length - 1)
 
         const checkBoxEl = document.createElement('input');
         checkBoxEl.type = 'checkbox';
@@ -214,16 +216,16 @@ const handlers = {
     },
 
     toggleAll(event) {
-
+        const todosArr = app._state.todos;
         //update state and dom
-        if (app._state.todos.every(todo => todo.completed === true)) {
-            app._state.todos.forEach((todo, i) => {
+        if (todosArr.every(todo => todo.completed === true)) {
+            todosArr.forEach((todo, i) => {
                 todo.completed = false;
                 const checkboxId = String(i)
                 document.getElementById(checkboxId).checked = false;
             })
         } else {
-            app._state.todos.forEach((todo, i) => {
+            todosArr.forEach((todo, i) => {
                 todo.completed = true;
                 const checkboxId = String(i)
                 document.getElementById(checkboxId).checked = true;
@@ -239,5 +241,39 @@ const handlers = {
         });
         console.log('logs', logger.logs)
 
+    },
+    editTodo(event) {
+
+        if (event.target.nodeName === 'P') {
+            const p = event.target;
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.id = 'edit-todo'
+            input.value = event.target.innerText
+            p.parentElement.replaceChild(input, p);
+        } else {
+            const newP = document.createElement('p')
+            const input = document.getElementById('edit-todo')
+
+            //read new todo text
+            const newText = input.value
+            newP.innerText = newText;
+
+            //update State
+            const position = input.parentElement.dataset.index;
+            app._state.todos[position].text = newText
+
+            //update DOM
+            input.parentElement.replaceChild(newP, input)
+        }
+
+        //developer logs
+        logger.push({
+            action: 'edit',
+            state: deepClone(app._state),
+            event,
+
+        });
+        console.log('logs', logger.logs)
     }
 }

@@ -16,6 +16,7 @@ window.onload = () => {
     const todosView = view.renderTodos(app.state.todos);
     todosView.addEventListener('change', toggleCompletedHandler); // event delegation!
     todosView.addEventListener('click', handlers.deleteTodo)
+    todosView.addEventListener('dblclick', handlers.editTodo);
     root.appendChild(todosView);
 
 
