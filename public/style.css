@@ -1,8 +1,64 @@
-.todo-item {
+* {
+    box-sizing: border-box;
+}
+
+#root {
     display: flex;
+    justify-content: center;
+    flex-direction: column;
+    max-width: 400px;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+}
+
+div.container {
+    text-align: center;
+}
+
+ul#todo-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+
+li.todo-item {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid gray;
+    padding-bottom: 5px;
+}
+
+h1 {
+    text-align: center;
+}
+
+input[type="text"] {
+    width: 80%;
 }
 
 p {
     margin: 0;
     padding: 0;
+}
+
+button.delete {
+    border: none;
+    border-radius: 6px;
+    color: white;
+    background-color: red;
+}
+
+button#toggle-button {
+    background-color: rgb(87, 87, 231);
+    color: white;
+    border: none;
+    width: 20px;
+    height: 20px;
 }
