@@ -169,6 +169,10 @@ const handlers = {
         //update state
         app.addTodo(input);
 
+        //update local storage
+
+        localStorage.setItem('state', JSON.stringify(app.state))
+
         //render todo and add to DOM event listeners
         const addedTodo = view.renderAddedTodo();
         document.getElementById('todo-list').appendChild(addedTodo);
@@ -198,6 +202,10 @@ const handlers = {
         //delete todo from state
         app.deleteTodo(position)
 
+        //update local storage
+
+        localStorage.setItem('state', JSON.stringify(app.state))
+
         //delete from dom
         const todoItem = event.target.parentElement
 
@@ -215,8 +223,33 @@ const handlers = {
 
     },
 
+    toggleCompleted(event) {
+        // event delegation!
+        const target = event.target;
+        if (target.nodeName !== 'INPUT' || target.type !== 'checkbox') {
+            return;
+        }
+
+        // update state using app method
+        const todoIndex = Number(target.id);
+        app.toggleCompleted(todoIndex);
+
+        //update local storage
+        localStorage.setItem('state', JSON.stringify(app.state))
+
+        //developer logs
+        logger.push({
+            action: 'toggle todo',
+            event,
+            todoIndex,
+            state: app.state
+        });
+
+        console.log('logs', logger.logs)
+    },
+
     toggleAll(event) {
-        const todosArr = app._state.todos;
+        const todosArr = app.state.todos;
         //update state and dom
         if (todosArr.every(todo => todo.completed === true)) {
             todosArr.forEach((todo, i) => {
@@ -231,6 +264,10 @@ const handlers = {
                 document.getElementById(checkboxId).checked = true;
             })
         }
+
+        //update local storage
+
+        localStorage.setItem('state', JSON.stringify(app.state))
 
         //developer logs
         logger.push({
@@ -267,7 +304,10 @@ const handlers = {
             input.parentElement.replaceChild(newP, input)
         }
 
-        //developer logs
+        //update local storage
+
+        localStorage.setItem('state', JSON.stringify(app.state))
+            //developer logs
         logger.push({
             action: 'edit',
             state: deepClone(app._state),
