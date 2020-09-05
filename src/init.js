@@ -2,7 +2,14 @@
 
 window.onload = () => {
     // set the initial state for your app
-    app.state = deepClone(initialState);
+    if (localStorage.getItem('state')) {
+        app.state = JSON.parse(localStorage.getItem('state'))
+    } else {
+        app.state = {
+            todos: []
+        }
+    }
+    //app.state = deepClone(initialState);
     console.log('app:', app);
 
     // render initial view and attach event listeners
@@ -14,7 +21,7 @@ window.onload = () => {
     initialScreen.querySelector('#toggle-button').addEventListener('click', handlers.toggleAll)
 
     const todosView = view.renderTodos(app.state.todos);
-    todosView.addEventListener('change', toggleCompletedHandler); // event delegation!
+    todosView.addEventListener('change', handlers.toggleCompleted); // event delegation!
     todosView.addEventListener('click', handlers.deleteTodo)
     todosView.addEventListener('dblclick', handlers.editTodo);
     root.appendChild(todosView);
