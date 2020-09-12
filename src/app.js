@@ -18,7 +18,7 @@
     remove extra methods when studying in JS Tutor (for cleaner visuals)
 
 */
-
+import { TodoList, Todo } from './data.js'
 
 const newApp = {
     _state: {
@@ -60,3 +60,5 @@ const newApp = {
 
     }
 };
+
+export { newApp }

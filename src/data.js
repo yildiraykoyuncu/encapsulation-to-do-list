@@ -306,3 +306,5 @@ class TodoList {
         console.log('logs', logger.logs)
     }
 }
+
+export { TodoList, Todo }

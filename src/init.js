@@ -1,3 +1,4 @@
+import { newApp } from './app.js'
 const addNewTodoListHandler = (event) => {
     if (event.key !== "Enter") return;
 
