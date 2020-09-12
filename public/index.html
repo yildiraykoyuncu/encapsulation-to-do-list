@@ -10,7 +10,11 @@
 </head>
 
 <body>
-
+    <header id="header" class="container">
+        <h1>TODOS</h1>
+        <label for="add-new">Add a new todo list</label>
+        <input type="text" id="add-new">
+    </header>
     <div id='root'></div>
 
     <!-- load the testing & reviewing dependencies -->
@@ -23,19 +27,19 @@
 
     <!-- load & test the app object -->
     <script src='../src/app.js'></script>
-    <script src='../src/app.spec.js'></script>
+
 
     <!-- load your views -->
     <!-- <script src='../src/views/render-todos.js'></script> -->
 
 
     <!-- load your handlers -->
-    <script src='../src/handlers/toggle-completed.js'></script>
+
 
 
     <!-- initialize the web page -->
     <script src='../src/data.js'></script>
-    <script src='../src/init.js'></script>
+    <script type="module" src='../src/init.js'></script>
 </body>
 
 </html>

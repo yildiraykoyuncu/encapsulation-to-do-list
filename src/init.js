@@ -1,37 +1,58 @@
-'use strict';
+const addNewTodoListHandler = (event) => {
+    if (event.key !== "Enter") return;
+
+    // Create new todo list
+    const name = event.target.value;
+    const todoList = new TodoList(name);
+
+
+    // push new todo list to the state
+
+    newApp._state.todoLists.push(todoList)
+    console.log(todoList);
+
+    // add new todoList to DOM
+
+    const root = document.getElementById("root");
+    const renderedTodoList = todoList.renderInitialScreen();
+    root.appendChild(renderedTodoList);
+    renderedTodoList.querySelector('input[type="text"]')
+        .addEventListener("keyup", todoList.addTodoHandler);
+    renderedTodoList.querySelector("#toggle-button")
+        .addEventListener("click", todoList.toggleAllHandler);
+
+    const todosView = todoList.renderTodos(todoList.state.todos)
+    todosView.addEventListener("change", todoList.toggleCompletedHandler); // event delegation!
+    todosView.addEventListener("click", todoList.deleteTodoHandler);
+    todosView.addEventListener("dblclick", todoList.editTodoHandler);
+    renderedTodoList.appendChild(todosView)
+
+    //clean input field
+
+    event.target.value = ''
+
+};
 
 window.onload = () => {
+    document
+        .getElementById("add-new")
+        .addEventListener("keyup", newApp.addNewTodoListHandler);
     // set the initial state for your app
-    if (localStorage.getItem('state')) {
-        app.state = JSON.parse(localStorage.getItem('state'))
-    } else {
-        app.state = {
-            todos: []
-        }
-    }
+    // if (localStorage.getItem("state")) {
+    //     app.state = JSON.parse(localStorage.getItem("state"));
+    // } else {
+    //     app.state = {
+    //         todos: [],
+    //     };
+    // }
     //app.state = deepClone(initialState);
-    console.log('app:', app);
-
-    // render initial view and attach event listeners
-    const root = document.getElementById('root')
-
-    const initialScreen = view.renderInitialScreen()
-    root.appendChild(initialScreen)
-    initialScreen.querySelector('input[type="text"]').addEventListener('keyup', handlers.addTodo);
-    initialScreen.querySelector('#toggle-button').addEventListener('click', handlers.toggleAll)
-
-    const todosView = view.renderTodos(app.state.todos);
-    todosView.addEventListener('change', handlers.toggleCompleted); // event delegation!
-    todosView.addEventListener('click', handlers.deleteTodo)
-    todosView.addEventListener('dblclick', handlers.editTodo);
-    root.appendChild(todosView);
+    console.log("app:", newApp);
 
 
     // log the initiation
     logger.push({
-        initialState,
-        app,
-        view: todosView
+        state: newApp.state,
+        newApp,
+        //view: todosView,
     });
-
 };
